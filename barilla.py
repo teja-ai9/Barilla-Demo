@@ -65,7 +65,7 @@ cross_elasticity = st.sidebar.slider("Cross Elasticity", xl_lo, xl_hi, xl_def, x
 barilla_disc_grid = p["disc_grid"]
 pl_disc_grid = p["disc_grid"]
 
-# ===== Asymmetry + simple penalty (Bol-style) =====
+# ===== Asymmetry + simple penalty =====
 PL_BASE_FACTOR = 0.97      # Private Label base price is 3% cheaper than Barilla
 MIN_PRICE = 0.01
 GAP_THRESHOLD = 1.05       # 5% pricier
@@ -184,3 +184,4 @@ st.caption(
     "- Private Label profit uses the same COGS slider for simplicity; in production, use category-specific COGS.\n"
     "- In practice, elasticities/costs are calibrated from price tests or MMM. \n"
 )
+
