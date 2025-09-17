@@ -71,6 +71,11 @@ MIN_PRICE = 0.01
 GAP_THRESHOLD = 1.05       # 5% pricier
 PENALTY = 0.70             # if Barilla > PL by 5%, multiply Barilla demand by 0.70
 
+BARILLA_EQUITY = 1.15        # +15% baseline lift for Barilla
+BAR_OWN_E_MULT = 0.85        # Barilla less price-sensitive
+
+
+
 # ===== Simulation =====
 rows = []
 for bar_disc in barilla_disc_grid:
@@ -88,11 +93,12 @@ for bar_disc in barilla_disc_grid:
         penalty = PENALTY if price_ratio > GAP_THRESHOLD else 1.0
 
         # Demands (constant elasticities; normalized by each player's base)
-        bar_demand = base_demand * (bar_price / bar_base) ** elasticity
+        bar_own_e = elasticity * BAR_OWN_E_MULT
+        bar_demand = BARILLA_EQUITY * base_demand * (bar_price / bar_base)**bar_own_e 
         bar_demand *= (pl_price / pl_base) ** cross_elasticity
         bar_demand *= penalty
 
-        pl_demand = base_demand * (pl_price / pl_base) ** elasticity
+        pl_demand  = base_demand * (pl_price / pl_base)**elasticity
         pl_demand *= (bar_price / bar_base) ** cross_elasticity
 
         # Profits (illustrative; PL uses same COGS for simplicity)
@@ -184,4 +190,5 @@ st.caption(
     "- Private Label profit uses the same COGS slider for simplicity; in production, use category-specific COGS.\n"
     "- In practice, elasticities/costs are calibrated from price tests or MMM. \n"
 )
+
 
